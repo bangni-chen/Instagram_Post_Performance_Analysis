@@ -274,6 +274,7 @@ logit_formula = (
 )
 
 logit_model = sm.formula.logit(formula=logit_formula, data=ins).fit()
+
 logit_model.summary()
 
 ```
@@ -292,8 +293,10 @@ poisson_formula = (
 )
 
 poisson_model = sm.formula.poisson(formula=poisson_formula, data=ins).fit()
+```
 
-poisson_model.summary()
+```{python}
+print(poisson_model.summary())
 ```
 
 The Poisson regression on raw engagement counts shows strong explanatory power, with a pseudo R-squared of 0.7739. Caption length and the number of hashtags both have small but significant negative effects on engagement, and a higher share of impressions coming from hashtags is also linked to lower engagement. In contrast, mentioning the target phrase, especially when mentioned multiple times, tends to increase engagement in both captions and hashtags. All four impression-source variables (Home, Hashtags, Explore, Other) are positive predictors, and increases in Home impressions appear to have the largest practical effect. Overall, the Poisson results are consistent with the OLS findings: more general hashtags do not necessarily help, while topic-specific mentions and stronger visibility through key sources, especially the Home feed, are associated with higher engagement.

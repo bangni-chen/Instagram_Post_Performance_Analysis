@@ -268,6 +268,7 @@ summary_by_hashtag
 | True | 5703.991597 | 4289.0 | 119 | 414.495798 | 314.0 | 119 | 173.781513 | 151.0 | 119 | 6.663866 | 6.0 | 119 |
 
 
+
 ``` python
 # Calculate total impressions from each source to see which source contributes the most to overall impressions
 summary_by_source = pd.DataFrame({
@@ -389,7 +390,7 @@ ols_model.summary()
 | Model:            | OLS              | Adj. R-squared:     | 0.761    |
 | Method:           | Least Squares    | F-statistic:        | 35.17    |
 | Date:             | Wed, 03 Dec 2025 | Prob (F-statistic): | 1.43e-30 |
-| Time:             | 13:11:06         | Log-Likelihood:     | -11.223  |
+| Time:             | 13:27:15         | Log-Likelihood:     | -11.223  |
 | No. Observations: | 119              | AIC:                | 46.45    |
 | Df Residuals:     | 107              | BIC:                | 79.79    |
 | Df Model:         | 11               |                     |          |
@@ -446,6 +447,7 @@ logit_formula = (
 )
 
 logit_model = sm.formula.logit(formula=logit_formula, data=ins).fit()
+
 logit_model.summary()
 ```
 
@@ -457,7 +459,7 @@ logit_model.summary()
 | Model:           | Logit            | Df Residuals:     | 107       |
 | Method:          | MLE              | Df Model:         | 11        |
 | Date:            | Wed, 03 Dec 2025 | Pseudo R-squ.:    | 0.6366    |
-| Time:            | 13:11:06         | Log-Likelihood:   | -29.976   |
+| Time:            | 13:27:15         | Log-Likelihood:   | -29.976   |
 | converged:       | True             | LL-Null:          | -82.480   |
 | Covariance Type: | nonrobust        | LLR p-value:      | 1.810e-17 |
 
@@ -502,13 +504,39 @@ poisson_formula = (
 )
 
 poisson_model = sm.formula.poisson(formula=poisson_formula, data=ins).fit()
-
-poisson_model.summary()
 ```
 
-    Warning: Maximum number of iterations has been exceeded.
-             Current function value: 21.360429
-             Iterations: 35
+ 
+
+``` python
+print(poisson_model.summary())
+```
+
+                              Poisson Regression Results                          
+    ==============================================================================
+    Dep. Variable:             engagement   No. Observations:                  119
+    Model:                        Poisson   Df Residuals:                      107
+    Method:                           MLE   Df Model:                           11
+    Date:                Wed, 03 Dec 2025   Pseudo R-squ.:                  0.7739
+    Time:                        13:27:15   Log-Likelihood:                -2541.9
+    converged:                      False   LL-Null:                       -11241.
+    Covariance Type:            nonrobust   LLR p-value:                     0.000
+    ===============================================================================================
+                                      coef    std err          z      P>|z|      [0.025      0.975]
+    -----------------------------------------------------------------------------------------------
+    Intercept                       6.2258      0.030    209.510      0.000       6.168       6.284
+    caption_length                 -0.0004   3.87e-05     -9.262      0.000      -0.000      -0.000
+    hashtags_count                 -0.0332      0.001    -23.720      0.000      -0.036      -0.030
+    pct_from_hashtags              -1.1744      0.057    -20.724      0.000      -1.285      -1.063
+    data_science_caption            0.1574      0.022      7.121      0.000       0.114       0.201
+    data_science_hashtags          -0.0222      0.019     -1.144      0.253      -0.060       0.016
+    data_science_count_caption      0.0685      0.013      5.474      0.000       0.044       0.093
+    data_science_count_hashtags     0.0393      0.005      8.114      0.000       0.030       0.049
+    Q('From Home')               8.307e-05   3.93e-06     21.144      0.000    7.54e-05    9.08e-05
+    Q('From Hashtags')              0.0002   3.47e-06     56.638      0.000       0.000       0.000
+    Q('From Explore')            1.271e-05   2.73e-06      4.661      0.000    7.37e-06    1.81e-05
+    Q('From Other')                 0.0001    1.4e-05      9.510      0.000       0.000       0.000
+    ===============================================================================================
 
 The Poisson regression on raw engagement counts shows strong explanatory
 power, with a pseudo R-squared of 0.7739. Caption length and the number
