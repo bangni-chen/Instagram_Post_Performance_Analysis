@@ -448,9 +448,7 @@ logit_model = sm.formula.logit(formula=logit_formula, data=ins).fit()
 logit_model.summary()
 ```
 
-    Optimization terminated successfully.
-             Current function value: 0.251897
-             Iterations 10
+
 
 |                  |                  |                   |           |
 |------------------|------------------|-------------------|-----------|
