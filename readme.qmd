@@ -13,7 +13,7 @@ This project explores what drives reach and engagement on Instagram using a publ
 
 The goal of this project is to understand how text features, hashtag usage, and traffic sources influence reach and engagement. By combining quantitative metrics with text-based analysis, this project aims to provide actionable insights that can help content creators optimize their posting strategy and improve overall content performance.
 
-Data source: Instagram Reach Analysis: Case Study, Kaggle — https://www.kaggle.com/datasets/bhanupratapbiswas/instagram-reach-analysis-case-study
+Data source: Instagram Reach Analysis: Case Study, Kaggle - https://www.kaggle.com/datasets/bhanupratapbiswas/instagram-reach-analysis-case-study
 
 ## Read
 
@@ -256,8 +256,10 @@ ols_formula = (
 
 # Build ols model
 ols_model = sm.formula.ols(formula=ols_formula, data=ins).fit()
+```
 
-ols_model.summary()
+```{python}
+print(ols_model.summary())
 ```
 
 The OLS model using log-transformed engagement has an R-squared of 0.783, showing strong explanatory power. The results indicate that adding more hashtags is linked to lower engagement, and a higher share of impressions from hashtags also predicts lower engagement. On the other hand, mentions of “data science” within hashtags are positively associated with engagement. Impressions from Home and from Hashtags are both significant positive predictors, with Home impressions having the largest impact. Overall, the model suggests that just adding hashtags does not help much, while using targeted hashtag content and getting more exposure from key channels, especially the Home feed, is more important for higher engagement.
@@ -274,9 +276,10 @@ logit_formula = (
 )
 
 logit_model = sm.formula.logit(formula=logit_formula, data=ins).fit()
+```
 
-logit_model.summary()
-
+```{python}
+print(logit_model.summary())
 ```
 
 The logistic regression predicting whether a post gets above-median engagement has a pseudo R-squared of 0.6366, showing reasonably good classification. The only significant predictor is impressions from Home, with each extra Home impression increasing the odds of high engagement by about 0.62%. Textual features such as caption length, number of hashtags, and the data-science indicators are not significant, suggesting that exposure through the Home feed is the strongest factor for whether a post performs above the median.

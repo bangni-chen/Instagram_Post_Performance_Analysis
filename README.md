@@ -17,7 +17,7 @@ quantitative metrics with text-based analysis, this project aims to
 provide actionable insights that can help content creators optimize
 their posting strategy and improve overall content performance.
 
-Data source: Instagram Reach Analysis: Case Study, Kaggle —
+Data source: Instagram Reach Analysis: Case Study, Kaggle -
 https://www.kaggle.com/datasets/bhanupratapbiswas/instagram-reach-analysis-case-study
 
 ## Read
@@ -229,7 +229,7 @@ hashtag_posts.head()
 | 3 | 4528 | 2700 | 621 | 932 | 73 | 172 | 10 | 7 | 213 | 23 | ... | \#python #pythonprogramming #pythonprojects #py... | 433 | 202 | 11 | 0.137147 | 1 | 0 | 0 | 0 | 0 |
 | 4 | 2518 | 1704 | 255 | 279 | 37 | 96 | 5 | 4 | 123 | 8 | ... | \#datavisualization #datascience #data #dataana... | 236 | 178 | 29 | 0.101271 | 0 | 0 | 0 | 1 | 1 |
 
-<p>5 rows × 22 columns</p>
+
 
 
 ``` python
@@ -248,7 +248,7 @@ high_engagement_posts.head()
 | 9 | 4115 | 2609 | 1104 | 178 | 46 | 122 | 6 | 3 | 191 | 31 | ... | \#python #pythonprogramming #pythonprojects #py... | 359 | 79 | 11 | 0.268287 | 1 | 0 | 0 | 0 | 0 |
 | 14 | 9453 | 2525 | 5799 | 208 | 794 | 100 | 6 | 10 | 294 | 181 | ... | \#data #datascience #dataanalysis #dataanalytic... | 633 | 60 | 19 | 0.613456 | 1 | 0 | 0 | 1 | 1 |
 
-<p>5 rows × 22 columns</p>
+
 
 
 ## Summarizing
@@ -380,48 +380,46 @@ ols_formula = (
 
 # Build ols model
 ols_model = sm.formula.ols(formula=ols_formula, data=ins).fit()
-
-ols_model.summary()
 ```
 
-|                   |                  |                     |          |
-|-------------------|------------------|---------------------|----------|
-| Dep. Variable:    | log_engagement   | R-squared:          | 0.783    |
-| Model:            | OLS              | Adj. R-squared:     | 0.761    |
-| Method:           | Least Squares    | F-statistic:        | 35.17    |
-| Date:             | Wed, 03 Dec 2025 | Prob (F-statistic): | 1.43e-30 |
-| Time:             | 13:27:15         | Log-Likelihood:     | -11.223  |
-| No. Observations: | 119              | AIC:                | 46.45    |
-| Df Residuals:     | 107              | BIC:                | 79.79    |
-| Df Model:         | 11               |                     |          |
-| Covariance Type:  | nonrobust        |                     |          |
+``` python
+print(ols_model.summary())
+```
 
-OLS Regression Results
+                                OLS Regression Results                            
+    ==============================================================================
+    Dep. Variable:         log_engagement   R-squared:                       0.783
+    Model:                            OLS   Adj. R-squared:                  0.761
+    Method:                 Least Squares   F-statistic:                     35.17
+    Date:                Wed, 03 Dec 2025   Prob (F-statistic):           1.43e-30
+    Time:                        13:51:20   Log-Likelihood:                -11.223
+    No. Observations:                 119   AIC:                             46.45
+    Df Residuals:                     107   BIC:                             79.79
+    Df Model:                          11                                         
+    Covariance Type:            nonrobust                                         
+    ===============================================================================================
+                                      coef    std err          t      P>|t|      [0.025      0.975]
+    -----------------------------------------------------------------------------------------------
+    Intercept                       5.9703      0.170     35.024      0.000       5.632       6.308
+    caption_length                 -0.0003      0.000     -1.409      0.162      -0.001       0.000
+    hashtags_count                 -0.0283      0.007     -4.219      0.000      -0.042      -0.015
+    pct_from_hashtags              -1.2894      0.343     -3.760      0.000      -1.969      -0.609
+    data_science_caption           -0.0113      0.127     -0.089      0.929      -0.262       0.239
+    data_science_hashtags          -0.0494      0.103     -0.478      0.634      -0.254       0.156
+    data_science_count_caption      0.1271      0.074      1.710      0.090      -0.020       0.274
+    data_science_count_hashtags     0.0638      0.032      2.001      0.048       0.001       0.127
+    Q('From Home')                  0.0001   3.12e-05      4.434      0.000    7.65e-05       0.000
+    Q('From Hashtags')              0.0002   2.72e-05      8.567      0.000       0.000       0.000
+    Q('From Explore')           -4.502e-06   2.02e-05     -0.222      0.824   -4.46e-05    3.56e-05
+    Q('From Other')             -8.481e-05      0.000     -0.685      0.495      -0.000       0.000
+    ==============================================================================
+    Omnibus:                        1.056   Durbin-Watson:                   1.933
+    Prob(Omnibus):                  0.590   Jarque-Bera (JB):                1.080
+    Skew:                          -0.220   Prob(JB):                        0.583
+    Kurtosis:                       2.843   Cond. No.                     5.82e+04
+    ==============================================================================
 
-|  |  |  |  |  |  |  |
-|----|----|----|----|----|----|----|
-|  | coef | std err | t | P\>\|t\| | \[0.025 | 0.975\] |
-| Intercept | 5.9703 | 0.170 | 35.024 | 0.000 | 5.632 | 6.308 |
-| caption_length | -0.0003 | 0.000 | -1.409 | 0.162 | -0.001 | 0.000 |
-| hashtags_count | -0.0283 | 0.007 | -4.219 | 0.000 | -0.042 | -0.015 |
-| pct_from_hashtags | -1.2894 | 0.343 | -3.760 | 0.000 | -1.969 | -0.609 |
-| data_science_caption | -0.0113 | 0.127 | -0.089 | 0.929 | -0.262 | 0.239 |
-| data_science_hashtags | -0.0494 | 0.103 | -0.478 | 0.634 | -0.254 | 0.156 |
-| data_science_count_caption | 0.1271 | 0.074 | 1.710 | 0.090 | -0.020 | 0.274 |
-| data_science_count_hashtags | 0.0638 | 0.032 | 2.001 | 0.048 | 0.001 | 0.127 |
-| Q('From Home') | 0.0001 | 3.12e-05 | 4.434 | 0.000 | 7.65e-05 | 0.000 |
-| Q('From Hashtags') | 0.0002 | 2.72e-05 | 8.567 | 0.000 | 0.000 | 0.000 |
-| Q('From Explore') | -4.502e-06 | 2.02e-05 | -0.222 | 0.824 | -4.46e-05 | 3.56e-05 |
-| Q('From Other') | -8.481e-05 | 0.000 | -0.685 | 0.495 | -0.000 | 0.000 |
-
-|                |        |                   |          |
-|----------------|--------|-------------------|----------|
-| Omnibus:       | 1.056  | Durbin-Watson:    | 1.933    |
-| Prob(Omnibus): | 0.590  | Jarque-Bera (JB): | 1.080    |
-| Skew:          | -0.220 | Prob(JB):         | 0.583    |
-| Kurtosis:      | 2.843  | Cond. No.         | 5.82e+04 |
-
-
+ 
 
 The OLS model using log-transformed engagement has an R-squared of
 0.783, showing strong explanatory power. The results indicate that
@@ -447,41 +445,41 @@ logit_formula = (
 )
 
 logit_model = sm.formula.logit(formula=logit_formula, data=ins).fit()
-
-logit_model.summary()
 ```
 
 
 
-|                  |                  |                   |           |
-|------------------|------------------|-------------------|-----------|
-| Dep. Variable:   | high_engagement  | No. Observations: | 119       |
-| Model:           | Logit            | Df Residuals:     | 107       |
-| Method:          | MLE              | Df Model:         | 11        |
-| Date:            | Wed, 03 Dec 2025 | Pseudo R-squ.:    | 0.6366    |
-| Time:            | 13:27:15         | Log-Likelihood:   | -29.976   |
-| converged:       | True             | LL-Null:          | -82.480   |
-| Covariance Type: | nonrobust        | LLR p-value:      | 1.810e-17 |
+``` python
+print(logit_model.summary())
+```
 
-Logit Regression Results
+                               Logit Regression Results                           
+    ==============================================================================
+    Dep. Variable:        high_engagement   No. Observations:                  119
+    Model:                          Logit   Df Residuals:                      107
+    Method:                           MLE   Df Model:                           11
+    Date:                Wed, 03 Dec 2025   Pseudo R-squ.:                  0.6366
+    Time:                        13:51:20   Log-Likelihood:                -29.976
+    converged:                       True   LL-Null:                       -82.480
+    Covariance Type:            nonrobust   LLR p-value:                 1.810e-17
+    ===============================================================================================
+                                      coef    std err          z      P>|z|      [0.025      0.975]
+    -----------------------------------------------------------------------------------------------
+    Intercept                     -16.2969      6.489     -2.512      0.012     -29.015      -3.579
+    caption_length                 -0.0021      0.003     -0.817      0.414      -0.007       0.003
+    hashtags_count                 -0.0844      0.088     -0.957      0.338      -0.257       0.088
+    pct_from_hashtags              -2.9330     12.833     -0.229      0.819     -28.085      22.219
+    data_science_caption            0.0068      1.950      0.004      0.997      -3.814       3.828
+    data_science_hashtags           0.8738      1.456      0.600      0.548      -1.979       3.727
+    data_science_count_caption      1.1364      1.305      0.871      0.384      -1.422       3.694
+    data_science_count_hashtags    -0.8919      0.795     -1.122      0.262      -2.450       0.666
+    Q('From Home')                  0.0062      0.002      3.294      0.001       0.003       0.010
+    Q('From Hashtags')              0.0023      0.002      1.290      0.197      -0.001       0.006
+    Q('From Explore')               0.0020      0.001      1.934      0.053   -2.69e-05       0.004
+    Q('From Other')                 0.0042      0.003      1.530      0.126      -0.001       0.010
+    ===============================================================================================
 
-|                             |          |         |        |          |           |         |
-|-----------------------------|----------|---------|--------|----------|-----------|---------|
-|                             | coef     | std err | z      | P\>\|z\| | \[0.025   | 0.975\] |
-| Intercept                   | -16.2969 | 6.489   | -2.512 | 0.012    | -29.015   | -3.579  |
-| caption_length              | -0.0021  | 0.003   | -0.817 | 0.414    | -0.007    | 0.003   |
-| hashtags_count              | -0.0844  | 0.088   | -0.957 | 0.338    | -0.257    | 0.088   |
-| pct_from_hashtags           | -2.9330  | 12.833  | -0.229 | 0.819    | -28.085   | 22.219  |
-| data_science_caption        | 0.0068   | 1.950   | 0.004  | 0.997    | -3.814    | 3.828   |
-| data_science_hashtags       | 0.8738   | 1.456   | 0.600  | 0.548    | -1.979    | 3.727   |
-| data_science_count_caption  | 1.1364   | 1.305   | 0.871  | 0.384    | -1.422    | 3.694   |
-| data_science_count_hashtags | -0.8919  | 0.795   | -1.122 | 0.262    | -2.450    | 0.666   |
-| Q('From Home')              | 0.0062   | 0.002   | 3.294  | 0.001    | 0.003     | 0.010   |
-| Q('From Hashtags')          | 0.0023   | 0.002   | 1.290  | 0.197    | -0.001    | 0.006   |
-| Q('From Explore')           | 0.0020   | 0.001   | 1.934  | 0.053    | -2.69e-05 | 0.004   |
-| Q('From Other')             | 0.0042   | 0.003   | 1.530  | 0.126    | -0.001    | 0.010   |
-
-
+ 
 
 The logistic regression predicting whether a post gets above-median
 engagement has a pseudo R-squared of 0.6366, showing reasonably good
@@ -506,7 +504,7 @@ poisson_formula = (
 poisson_model = sm.formula.poisson(formula=poisson_formula, data=ins).fit()
 ```
 
- 
+
 
 ``` python
 print(poisson_model.summary())
@@ -518,7 +516,7 @@ print(poisson_model.summary())
     Model:                        Poisson   Df Residuals:                      107
     Method:                           MLE   Df Model:                           11
     Date:                Wed, 03 Dec 2025   Pseudo R-squ.:                  0.7739
-    Time:                        13:27:15   Log-Likelihood:                -2541.9
+    Time:                        13:51:21   Log-Likelihood:                -2541.9
     converged:                      False   LL-Null:                       -11241.
     Covariance Type:            nonrobust   LLR p-value:                     0.000
     ===============================================================================================
