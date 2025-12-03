@@ -15,9 +15,9 @@ The goal of this project is to understand how text features, hashtag usage, and 
 
 Data source: Instagram Reach Analysis: Case Study, Kaggle — https://www.kaggle.com/datasets/bhanupratapbiswas/instagram-reach-analysis-case-study
 
-### Read
+## Read
 
-Load the datasets.
+### Load the datasets.
 
 ```{python}
 import pandas as pd
@@ -39,7 +39,7 @@ ins.head()
 ins.columns
 ```
 
-### Visualization 1
+## Visualization 1
 
 To understand the overall structure of the dataset before building models, I first visualize the distributions of impressions and engagement. These plots give an initial idea of how skewed the reach metrics are and whether user interactions differ systematically across posts.
 
@@ -78,18 +78,18 @@ plt.ylabel("Total Impressions")
 plt.show()
 ```
 
-### Feature Engineering
+## Feature Engineering
 
 To better characterize the properties of each post, I created several new variables, including caption length, hashtag counts, and indicators that detect the presence and frequency of the phrase “data science” in both captions and hashtags.
 
-caption_length
+### caption_length
 
 ```{python}
 # Count characters in caption to further check whether longer captions increase engagement
 ins['caption_length'] = ins['Caption'].astype(str).str.len()
 ```
 
-hashtags_count
+### hashtags_count
 
 ```{python}
 # Count hashtags to see how heavily tags are used
@@ -101,21 +101,21 @@ def count_hashtags(s):
 ins['hashtags_count'] = ins['Hashtags'].apply(count_hashtags)
 ```
 
-pct_from_hashtags
+### pct_from_hashtags
 
 ```{python}
 # Calculate the fraction of impressions from hashtags, replace total impressions of 0 with NaN to avoid division by zero, then fill resulting NaNs with 0 for clean data
 ins['pct_from_hashtags'] = (ins['From Hashtags'] / ins['Impressions'].replace(0, np.nan)).fillna(0)  
 ```
 
-high_engagement
+### high_engagement
 
 ```{python}
 # Create a binary indicator for engagement above the median for use in logistic regression
 ins['high_engagement'] = (ins['engagement'] > ins['engagement'].median()).astype(int)
 ```
 
-data_science_in_caption
+### data_science_in_caption
 
 ```{python}
 # Create a binary variable detecting presence of "data science" in Caption
@@ -131,7 +131,7 @@ ins['data_science_count_caption'] = ins['Caption'].astype(str).str.count('[Dd]at
 ins[['Caption', 'data_science_caption', 'data_science_count_caption']].head()         
 ```
 
-data_science_in_hashtags
+### data_science_in_hashtags
 
 ```{python}
 # Create a binary variable detecting presence of "data science" in hashtags
@@ -147,7 +147,7 @@ ins['data_science_count_hashtags'] = ins['Hashtags'].astype(str).str.count('[Dd]
 ins[['Hashtags', 'data_science_hashtags', 'data_science_count_hashtags']].head()
 ```
 
-### Subsetting 
+## Subsetting 
 
 Before moving to regression models, I examine how posts differ when grouped by hashtag usage and engagement levels. These comparisons give a first look at possible patterns and help set expectations for the modeling stage.
 
@@ -163,7 +163,7 @@ high_engagement_posts = ins[ins['high_engagement'] == 1]
 high_engagement_posts.head()
 ```
 
-### Summarizing
+## Summarizing
 
 ```{python}
 # Summarize impressions, engagement, likes, and comments grouped by whether posts have hashtags
@@ -182,7 +182,7 @@ summary_by_source = pd.DataFrame({
 summary_by_source
 ```
 
-### Visualization 2
+## Visualization 2
 
 To further check the newly created variables, I created a second set of visualizations. These plots show how hashtag use and “data science”-related terms relate to post performance, providing an initial look at how the engineered textual features might affect reach and interaction.
 
@@ -236,11 +236,11 @@ plt.ylabel("Engagement")
 plt.show()
 ```
 
-### Model
+## Model
 
 Finally, I estimate three models: OLS, Logit, and Poisson, to analyze how text features, hashtag behavior, and "data science"–related terms predict different outcomes. Each model corresponds to a different type of dependent variable: continuous reach (OLS), binary engagement (Logit), and count-based interactions (Poisson).
 
-OLS model
+### OLS model
 
 ```{python}
 # Create log-transformed outcome variable in the DataFrame to reduce skew
@@ -262,7 +262,7 @@ ols_model.summary()
 
 The OLS model using log-transformed engagement has an R-squared of 0.783, showing strong explanatory power. The results indicate that adding more hashtags is linked to lower engagement, and a higher share of impressions from hashtags also predicts lower engagement. On the other hand, mentions of “data science” within hashtags are positively associated with engagement. Impressions from Home and from Hashtags are both significant positive predictors, with Home impressions having the largest impact. Overall, the model suggests that just adding hashtags does not help much, while using targeted hashtag content and getting more exposure from key channels, especially the Home feed, is more important for higher engagement.
 
-Logit model
+### Logit model
 
 ```{python}
 # Logistic regression predicting high engagement
@@ -280,7 +280,7 @@ logit_model.summary()
 
 The logistic regression predicting whether a post gets above-median engagement has a pseudo R-squared of 0.6366, showing reasonably good classification. The only significant predictor is impressions from Home, with each extra Home impression increasing the odds of high engagement by about 0.62%. Textual features such as caption length, number of hashtags, and the data-science indicators are not significant, suggesting that exposure through the Home feed is the strongest factor for whether a post performs above the median.
 
-Poisson model
+### Poisson model
 
 ```{python}
 # Poisson model predicting engagement counts
