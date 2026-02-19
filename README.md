@@ -1,4 +1,4 @@
-# Final Project: Instagram Post Performance Analysis
+# Instagram Post Performance Analysis
 
 
 ## Introduction
